@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -110,6 +110,21 @@ return [
             'prefix_indexes' => true,
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+
+        'neon' => [
+            'driver' => 'pgsql',
+            'url' => env('DB_URL'),
+            'host' => env('NEON_HOST'),
+            'port' => env('NEON_PORT'),
+            'database' => env('NEON_DATABASE'),
+            'username' => env('NEON_USERNAME'),
+            'password' => env('NEON_PASSWORD'),
+            'charset' => env('DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
         ],
 
     ],

@@ -13,4 +13,11 @@ Route::get('/logout', function ()
     return redirect('/login');
 });
 
+Route::get('/test-neon', function () {
+
+        DB::connection('neon')->getPdo();
+        return "Neon connection successful!";
+
+});
+
 require __DIR__.'/auth/auth.php';
