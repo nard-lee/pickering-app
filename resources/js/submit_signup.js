@@ -1,4 +1,62 @@
-document
+
+document.addEventListener('DOMContentLoaded', function() {
+  
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+    
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            const icon = this.querySelector('i');
+            icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+        });
+    }
+    
+    const password = document.getElementById('password');
+    const strengthIndicator = document.getElementById('passwordStrength');
+    
+    if (password && strengthIndicator) {
+        password.addEventListener('input', (event)=> {
+            const value = event.target.value;
+            const strength = calculatePasswordStrength(value);
+
+            if (strength === 0) {
+                strengthIndicator.textContent = '';
+            } else if (strength <= 2) {
+                strengthIndicator.textContent = 'weak';
+            } else if (strength <= 4) {
+                strengthIndicator.textContent = 'medium';
+            } else {
+                strengthIndicator.textContent = 'strong';
+            }
+        });
+    }
+    
+    function calculatePasswordStrength(password) {
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        return strength;
+    }
+    
+    const confirmPassword = document.getElementById('confirmPassword');
+    const confirmError = document.querySelector('.err.confirmPassword');
+    
+    if (confirmPassword && confirmError) {
+        confirmPassword.addEventListener('input', function() {
+            if (password.value && this.value && password.value !== this.value) {
+                confirmError.textContent = 'Passwords do not match';
+            } else {
+                confirmError.textContent = '';
+            }
+        });
+    }
+
+    document
     .querySelector("#signup_form")
     .addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -12,13 +70,11 @@ document
             password: form.password.value,
         };
 
-        // Clear previous errors
         document.querySelector(".err.name").textContent = "";
         document.querySelector(".err.email").textContent = "";
         document.querySelector(".err.password").textContent = "";
 
         try {
-            // Disable button and show loading
             submitButton.disabled = true;
             indicator.classList.remove("hidden");
             submitButton.classList.remove("bg-gray-800");
@@ -39,9 +95,8 @@ document
             if (response.ok) {
                 window.location.href = "/dashboard";
             } else {
-                const errorData = await response.json();
-                document.querySelector(".err.name").textContent = errorData.errors?.name?.[0]     || "";
-                document.querySelector(".err.email").textContent = errorData.errors?.email?.[0]    || "";
+                document.querySelector(".err.name").textContent = errorData.errors?.name?.[0] || "";
+                document.querySelector(".err.email").textContent = errorData.errors?.email?.[0] || "";
                 document.querySelector(".err.password").textContent = errorData.errors?.password?.[0] || "";
             }
         } catch (error) {
@@ -53,3 +108,6 @@ document
             submitButton.classList.add("bg-gray-800");
         }
     });
+
+});
+

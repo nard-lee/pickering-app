@@ -174,69 +174,6 @@
     </p>
 </form>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-    
-    if (togglePassword && passwordField) {
-        togglePassword.addEventListener('click', function() {
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            const icon = this.querySelector('i');
-            icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-        });
-    }
-    
-    const password = document.getElementById('password');
-    const strengthIndicator = document.getElementById('passwordStrength');
-    
-    if (password && strengthIndicator) {
-        password.addEventListener('input', (event)=> {
-            const value = event.target.value;
-            const strength = calculatePasswordStrength(value);
-
-            if (strength === 0) {
-                strengthIndicator.textContent = '';
-            } else if (strength <= 2) {
-                //console.log("Password is weak");
-                strengthIndicator.textContent = 'weak';
-            } else if (strength <= 4) {
-                strengthIndicator.textContent = 'medium';
-                //console.log("Password is medium");
-            } else {
-                strengthIndicator.textContent = 'strong';
-                //console.log("Password is strong");
-            }
-        });
-    }
-    
-    function calculatePasswordStrength(password) {
-        let strength = 0;
-        if (password.length >= 8) strength++;
-        if (/[a-z]/.test(password)) strength++;
-        if (/[A-Z]/.test(password)) strength++;
-        if (/[0-9]/.test(password)) strength++;
-        if (/[^A-Za-z0-9]/.test(password)) strength++;
-        return strength;
-    }
-    
-    // Real-time password confirmation validation
-    const confirmPassword = document.getElementById('confirmPassword');
-    const confirmError = document.querySelector('.err.confirmPassword');
-    
-    if (confirmPassword && confirmError) {
-        confirmPassword.addEventListener('input', function() {
-            if (password.value && this.value && password.value !== this.value) {
-                confirmError.textContent = 'Passwords do not match';
-            } else {
-                confirmError.textContent = '';
-            }
-        });
-    }
-});
-</script>
 @endsection
 
 @vite(['resources/js/submit_signup.js'])

@@ -12,22 +12,26 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller 
 {
     public function login(LoginRequest $request)
-    {   
+    {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) 
-        {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             return response()->json([
+                'success' => true,
                 'message' => 'Login successful'
             ]);
         }
 
         return response()->json([
-            'message' => 'Invalid credentials'
+            'success' => false,
+            'errors' => [
+                'credentials' => ['Invalid email or password']
+            ]
         ], 401);
-    }   
+    }
+
 
     public function signup(SignupRequest $request)
     {

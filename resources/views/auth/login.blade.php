@@ -70,7 +70,7 @@
         </div>
         <span class="err password text-sm text-red-500 h-4"></span>
     </div>
-    
+    <span class="err credentials text-sm text-red-500 h-4"></span>
     <!-- Remember Me & Forgot Password -->
     <div class="flex items-center justify-between mt-1">
         <div class="flex items-center gap-2">
@@ -123,20 +123,7 @@
 </form>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Password visibility toggle
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-    
-    if (togglePassword && passwordField) {
-        togglePassword.addEventListener('click', function() {
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            const icon = this.querySelector('i');
-            icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-        });
-    }
-});
+
 </script>
 @endsection
 
